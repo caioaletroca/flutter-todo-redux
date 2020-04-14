@@ -3,7 +3,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:reduxTest/models/index.dart';
-import 'package:reduxTest/actions/index.dart';
+import 'package:reduxTest/viewModels/todoViewModel.dart';
 
 class AddTodoPage extends StatefulWidget {
 	@override
@@ -41,17 +41,15 @@ class _AddTodoPageState extends State<AddTodoPage> {
 					),
 				),
 			),
-			floatingActionButton: StoreConnector<AppState, _AddTodoPageViewModel> (
-				converter: (Store<AppState> store) => _AddTodoPageViewModel(store),
-				builder: (BuildContext context, _AddTodoPageViewModel viewModel) => FloatingActionButton(
+			floatingActionButton: StoreConnector<AppState, TodoViewModel> (
+				converter: (Store<AppState> store) => TodoViewModel(store),
+				builder: (BuildContext context, TodoViewModel viewModel) => FloatingActionButton(
 					tooltip: 'Save new task',
 					child: Icon(Icons.check),
 					onPressed: () {
 						if(_formKey.currentState.validate()) {
 							_formKey.currentState.save();
-
 							viewModel.onAddTodo(_content);
-
 							Navigator.pop(context);
 						}
 					},
@@ -59,12 +57,4 @@ class _AddTodoPageState extends State<AddTodoPage> {
 			),
 		);
 	}
-}
-
-@immutable
-class _AddTodoPageViewModel {
-	final Function(String) onAddTodo;
-
-	_AddTodoPageViewModel(store) :
-		onAddTodo = ((String content) => store.dispatch(AddTodoAction(content)));
 }

@@ -29,6 +29,6 @@ class App extends StatelessWidget {
 					'/add': (context) => AddTodoPage(),
 				}
 			),
-	    );
+    );
 	}
 }
